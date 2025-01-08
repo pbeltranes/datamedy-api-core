@@ -1,3 +1,4 @@
+import { patchNestjsSwagger } from '@anatine/zod-nestjs';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -35,6 +36,8 @@ export async function bootstrap() {
     .setDescription('The cats API description')
     .setVersion('1.0')
     .build();
+  patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   // const port = 8080;

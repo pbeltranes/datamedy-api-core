@@ -21,7 +21,10 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {}
+    "paths": {
+      "@/*": ["./*"],
+      "@users/*": ["./users/*"]
+    },
   },
   "include": ["./public","src/**/*.ts", "prisma", "vite.config.ts", "vitest.config.ts"]
 }

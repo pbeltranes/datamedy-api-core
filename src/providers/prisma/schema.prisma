@@ -5,103 +5,47 @@ generator client {
 datasource db {
   provider = "postgresql" // Cambiar al proveedor que uses, como MySQL o SQLite
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  phone     String?
-  password  String
-  rut       String    @unique
-  role      UserRole
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Patient   Patient?
-  Doctor    Doctor?
+  id             Int         @id @default(autoincrement())
+  username       String      @unique
+  email          String      @unique
+  name           String
+  phone          String
+  createdAt      DateTime    @default(now())
+  membership     Membership? @relation(fields: [membershipId], references: [id])
+  membershipId   Int?
+  profile        Profile?
 }
 
-model Patient {
-  id           String   @id @default(cuid())
-  userId       String   @unique
-  user         User     @relation(fields: [userId], references: [id])
-  appointments Appointment[]
-}
-
-model Doctor {
-  id           String         @id @default(cuid())
-  userId       String         @unique
-  user         User           @relation(fields: [userId], references: [id])
-  specialties  Specialty[]
-  services     Service[]
-  appointments Appointment[]
-  availability Availability[]
-}
-
-model Specialty {
-  id     String  @id @default(cuid())
-  name   String
-  doctor Doctor[]
-}
-
-model Service {
-  id          String  @id @default(cuid())
+model Membership {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
   name        String
+  price       Decimal   // Mejor usar Decimal para precios
   description String
-  doctorId    String
-  doctor      Doctor  @relation(fields: [doctorId], references: [id])
+  isActive    Boolean   @default(true)
+  users       User[]
 }
 
-model Appointment {
-  id               String      @id @default(cuid())
-  patientId        String
-  patient          Patient     @relation(fields: [patientId], references: [id])
-  doctorId         String
-  doctor           Doctor      @relation(fields: [doctorId], references: [id])
-  type             AppointmentType
-  mode             AppointmentMode
-  dateTime         DateTime
-  observations     String?
-  confirmationCode String?
-  status           AppointmentStatus @default(PENDING)
-}
-
-model Availability {
-  id       String   @id @default(cuid())
-  doctorId String
-  doctor   Doctor   @relation(fields: [doctorId], references: [id])
-  day      WeekDay
-  start    String   // Format: HH:mm
-  end      String   // Format: HH:mm
-}
-
-enum UserRole {
-  PATIENT
-  DOCTOR
-}
-
-enum AppointmentType {
-  CONSULTATION
-  FOLLOW_UP
-  SURGERY
-}
-
-enum AppointmentMode {
-  PRESENTIAL
-  REMOTE
-}
-
-enum AppointmentStatus {
-  PENDING
-  CONFIRMED
-  CANCELED
-}
-
-enum WeekDay {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
+model Profile {
+  id                 Int      @id @default(autoincrement())
+  rut                String   @unique
+  fullName           String
+  birthDate          DateTime
+  nationality        String
+  registrationNumber String
+  profilePhotoUrl    String?  // Ruta o URL
+  idCardFrontUrl     String   // Ruta o URL
+  idCardBackUrl      String   // Ruta o URL
+  phone              String
+  specialty          String
+  subspecialty       String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  userId             Int      @unique
+  User               User     @relation(fields: [userId], references: [id])
 }
