@@ -8,10 +8,12 @@ import {
 } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { AllExceptionsFilter } from './all-exceptions.filter';
 import { AppModule } from './app.module';
+import { PrismaExceptionFilter } from './prisma-exceptions.filter';
 
 export async function bootstrap() {
-  const adapter = new FastifyAdapter({ logger: false });
+  const adapter = new FastifyAdapter({ logger: true });
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
@@ -37,6 +39,9 @@ export async function bootstrap() {
     .setVersion('1.0')
     .build();
   patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+
+  // Agregar filtro global
+  app.useGlobalFilters(new PrismaExceptionFilter(), new AllExceptionsFilter());
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

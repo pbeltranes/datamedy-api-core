@@ -1,42 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '@users/dto/create-user.dto';
+// import { CreateUserDto } from '@users/dto/create-user.dto';
+import { User, STATUS_USER } from '@prisma/client';
 import { UpdateUserDto } from '@users/dto/update-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from '@/providers/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-    // user.getFormattedName;
-    const userD = await this.prismaService.user.create({
-      data: {
-        ...createUserDto,
-        name: createUserDto.name || 'defaultName',
-        username: createUserDto.username || 'defaultUsername',
-        email: createUserDto.email || 'defaultEmail@example.com',
-        phone: createUserDto.phone || 'defaultPhone',
-      },
-    });
-    // const user = new UserEntity(createUserDto);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { email, firstName, lastName, phone } = createUserDto;
 
-    return;
+    const user = await this.prismaService.user.create({
+      data: { email, firstName, lastName, phone },
+    });
+    return user;
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.prismaService.user.findMany({ take: 10 });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    return this.prismaService.user.findUnique({ where: { id } });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action returns a #${(JSON.stringify(updateUserDto), id)} user`;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    const { email, firstName, lastName, phone, rut } = updateUserDto;
+
+    return this.prismaService.user.update({
+      where: { id },
+      data: {
+        email,
+        firstName,
+        lastName,
+        phone,
+        rut,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  softDelete(id: string) {
+    return this.prismaService.user.update({
+      where: { id },
+      data: {
+        status: STATUS_USER.DESACTIVE,
+      },
+    });
   }
 }

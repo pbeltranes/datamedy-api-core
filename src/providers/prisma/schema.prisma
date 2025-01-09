@@ -3,49 +3,65 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // Cambiar al proveedor que uses, como MySQL o SQLite
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider     = "postgresql" // Cambiar al proveedor que uses, como MySQL o SQLite
+  url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
+  relationMode = "prisma"
+}
 
+generator fieldEncryptionMigrations {
+  provider = "prisma-field-encryption"
+  output   = "./where/you/want/your/migrations"
+
+  // Optionally opt-in to concurrent model migration.
+  // Since this can cause timeouts and performance issues,
+  // it's off by default, and models are updated sequentially.
+  concurrently = true
 }
 
 model User {
-  id             Int         @id @default(autoincrement())
-  username       String      @unique
-  email          String      @unique
-  name           String
-  phone          String
-  createdAt      DateTime    @default(now())
-  membership     Membership? @relation(fields: [membershipId], references: [id])
-  membershipId   Int?
-  profile        Profile?
+  id           String      @id @default(uuid())
+  email        String      @unique
+  firstName    String
+  lastName     String
+  phone        String
+  createdAt    DateTime    @default(now())
+  membership   Membership? @relation(fields: [membershipId], references: [id])
+  membershipId String?
+  profile      Profile?
+  rut          String?     @unique
+  status       STATUS_USER      @default(ACTIVE)
+
+  @@index([membershipId])
 }
 
 model Membership {
-  id          Int      @id @default(autoincrement())
-  code        String   @unique
+  id          String  @id @default(uuid())
+  code        String
   name        String
-  price       Decimal   // Mejor usar Decimal para precios
+  price       Decimal // Mejor usar Decimal para precios
   description String
-  isActive    Boolean   @default(true)
+  isActive    Boolean @default(true)
   users       User[]
 }
 
 model Profile {
-  id                 Int      @id @default(autoincrement())
-  rut                String   @unique
-  fullName           String
-  birthDate          DateTime
-  nationality        String
-  registrationNumber String
-  profilePhotoUrl    String?  // Ruta o URL
-  idCardFrontUrl     String   // Ruta o URL
-  idCardBackUrl      String   // Ruta o URL
-  phone              String
-  specialty          String
+  id                 String    @id @default(uuid())
+  birthDate          DateTime?
+  nationality        String?
+  registrationNumber String?
+  profilePhotoUrl    String? // Ruta o URL
+  idCardFrontUrl     String? // Ruta o URL
+  idCardBackUrl      String? // Ruta o URL
+  specialty          String?
   subspecialty       String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  userId             Int      @unique
-  User               User     @relation(fields: [userId], references: [id])
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  userId             String    @unique
+  User               User      @relation(fields: [userId], references: [id])
+}
+
+enum STATUS_USER {
+  ACTIVE
+  DESACTIVE
 }
