@@ -20,12 +20,7 @@ export async function bootstrap() {
   );
 
   const configService = app.get(ConfigService);
-  [].forEach((envVar) => {
-    if (!configService.get(envVar)) {
-      console.error(`Missing required environment variable: ${envVar}`);
-      process.exit(1);
-    }
-  });
+
   const corsOptions: CorsOptions = {
     origin: configService.get('ORIGIN_HOST'), // Origen permitido
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
