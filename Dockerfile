@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 RUN npm i -g pnpm
 
@@ -13,7 +13,7 @@ FROM base AS build
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN pnpm prisma generate --schema=/app/src/providers/prisma/schema.prisma
+RUN pnpm prisma:generate --schema=/app/src/providers/prisma/schema.prisma
 RUN pnpm build
 RUN pnpm prune --prod
 
