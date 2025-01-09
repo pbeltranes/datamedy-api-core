@@ -1,3 +1,4 @@
+import { patchNestjsSwagger } from '@anatine/zod-nestjs';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -7,22 +8,19 @@ import {
 } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { AllExceptionsFilter } from './all-exceptions.filter';
 import { AppModule } from './app.module';
+import { PrismaExceptionFilter } from './prisma-exceptions.filter';
 
 export async function bootstrap() {
-  const adapter = new FastifyAdapter({ logger: false });
+  const adapter = new FastifyAdapter({ logger: true });
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
   );
 
   const configService = app.get(ConfigService);
-  [].forEach((envVar) => {
-    if (!configService.get(envVar)) {
-      console.error(`Missing required environment variable: ${envVar}`);
-      process.exit(1);
-    }
-  });
+
   const corsOptions: CorsOptions = {
     origin: configService.get('ORIGIN_HOST'), // Origen permitido
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -35,6 +33,11 @@ export async function bootstrap() {
     .setDescription('The cats API description')
     .setVersion('1.0')
     .build();
+  patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+
+  // Agregar filtro global
+  app.useGlobalFilters(new PrismaExceptionFilter(), new AllExceptionsFilter());
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   // const port = 8080;
