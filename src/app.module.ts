@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { LeadModule } from './lead/lead.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -9,6 +10,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true, // Makes ConfigModule available globally
     }),
     UsersModule,
+    LeadModule,
   ],
   controllers: [],
   providers: [],

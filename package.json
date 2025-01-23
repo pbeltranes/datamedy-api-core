@@ -37,6 +37,7 @@
     "@nestjs/swagger": "^7.3.1",
     "@ngrok/ngrok": "^1.4.1",
     "@prisma/client": "^6.2.1",
+    "@sendgrid/mail": "^8.1.4",
     "axios": "^1.7.7",
     "bull": "^4.16.0",
     "fastify": "^4.28.1",
