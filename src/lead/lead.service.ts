@@ -1,16 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { Lead } from '@prisma/client';
-import { CreateLeadDto } from './dto/create-lead.dto';
+import { CreateLeadContactDto, CreateLeadDto } from './dto/create-lead.dto';
 import { PrismaService } from '@/providers/prisma/prisma.service';
 
 @Injectable()
 export class LeadService {
   constructor(readonly prismaService: PrismaService) {}
   async create(createLeadDto: CreateLeadDto): Promise<Lead> {
-    const { email, name, phone, contactType } = createLeadDto;
+    const { email, contactType } = createLeadDto;
 
     const lead = await this.prismaService.lead.create({
-      data: { email, name, phone, contactType },
+      data: { email, contactType },
+    });
+    return lead;
+  }
+
+  async createContact(createLeadDto: CreateLeadContactDto): Promise<Lead> {
+    const { email, name, contactType } = createLeadDto;
+
+    const lead = await this.prismaService.lead.create({
+      data: { email, name, contactType },
     });
     return lead;
   }

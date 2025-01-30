@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class SendGridService {
-  constructor(private readonly configService: ConfigService) {
+  constructor(readonly configService: ConfigService) {
     sgMail.setApiKey(this.configService.get<string>('SENDGRID_API_KEY'));
   }
 
@@ -40,9 +40,10 @@ export class SendGridService {
     }
   }
 
-  async handleEmailNotifications(lead: Lead): Promise<void> {
+  async handleEmailNotifications(lead: Lead, message?: string): Promise<void> {
+    console.log(message);
     const strategy = this.getNotificationStrategy(lead.contactType);
-    strategy?.execute(lead);
+    strategy?.execute(lead, message);
   }
 
   private getNotificationStrategy(
@@ -50,21 +51,21 @@ export class SendGridService {
   ): NotificationStrategy | undefined {
     const strategies = {
       NEWSLETTER: new NewsletterNotificationStrategy(this),
-      CONTACT: new ContactNotificationStrategy(this),
+      CONTACT: new ContactNotificationStrategy(this, this.configService),
       LAUNCH: new LaunchNotificationStrategy(this),
     };
     return strategies[contactType];
   }
 
   getDynamicDataBuilder(type: string, data: Record<string, any>) {
+    console.log('data', data);
     return {
-      NEWSLETTER: { name: data.name },
-      CONTACT: { name: data.name },
-      LAUNCH: { name: data.name },
+      NEWSLETTER: { name: data },
+      CONTACT: { name: data.name, message: data.message },
+      LAUNCH: { email: data.email },
       INTERNAL_CONTACT: {
         name: data.name,
         email: data.email,
-        phone: data.phone,
         message: data.message,
       },
     }[type];
@@ -72,7 +73,7 @@ export class SendGridService {
 }
 
 interface NotificationStrategy {
-  execute(lead: Lead): void;
+  execute(lead: Lead, message?: string): void;
 }
 
 class NewsletterNotificationStrategy implements NotificationStrategy {
@@ -88,9 +89,12 @@ class NewsletterNotificationStrategy implements NotificationStrategy {
 }
 
 class ContactNotificationStrategy implements NotificationStrategy {
-  constructor(private sendGridService: SendGridService) {}
+  constructor(
+    private sendGridService: SendGridService,
+    private readonly configService: ConfigService,
+  ) {}
 
-  execute(lead: Lead): void {
+  execute(lead: Lead, message: string): void {
     const dynamicData = this.sendGridService.getDynamicDataBuilder(
       TEMPLATE_TYPES.CONTACT,
       lead,
@@ -99,10 +103,10 @@ class ContactNotificationStrategy implements NotificationStrategy {
 
     const internalDynamicData = this.sendGridService.getDynamicDataBuilder(
       TEMPLATE_TYPES.INTERNAL_CONTACT,
-      lead,
+      { ...lead, message },
     );
     this.sendGridService.sendEmail(
-      lead.email,
+      this.configService.get('SENDGRID_SENDER_EMAIL'),
       INTERNAL_CONTACT_ID,
       internalDynamicData,
     );

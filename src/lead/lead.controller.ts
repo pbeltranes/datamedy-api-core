@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FastifyReply } from 'fastify';
-import { CreateLeadDto } from './dto/create-lead.dto';
+import { CreateLeadContactDto, CreateLeadDto } from './dto/create-lead.dto';
 import { LeadService } from './lead.service';
 import { SendGridService } from '@/providers/mailer/sendgrid.service';
 
@@ -38,18 +38,35 @@ export class LeadController {
       'email',
       createLeadDto.email,
     );
-
-    if (foundLead) {
-      return reply.status(200).send({
-        message: 'Object found',
-        data: foundLead,
-      });
+    if (!foundLead) {
+      const createdLead = await this.leadService.create(createLeadDto);
+      await this.emailService.handleEmailNotifications(createdLead);
     }
+    return reply.status(200).send(foundLead);
+  }
 
-    const lead = await this.leadService.create(createLeadDto);
-    await this.emailService.handleEmailNotifications(lead);
+  @Post('/contact')
+  @ApiOperation({ summary: 'Create a lead with form contact' })
+  @ApiBody({ type: CreateLeadContactDto })
+  @ApiResponse({ status: 201, description: 'User created successfully.' })
+  @ApiResponse({ status: 400, description: 'Invalid input data.' })
+  @ApiResponse({ status: 200, description: 'Object found.' })
+  async createContact(
+    @Body() createLeadDto: CreateLeadContactDto,
+    @Res() reply: FastifyReply,
+  ) {
+    let foundLead = await this.leadService.findBy('email', createLeadDto.email);
+    foundLead = foundLead ?? (await this.leadService.create(createLeadDto));
+    await this.emailService.handleEmailNotifications(
+      {
+        ...foundLead,
+        name: createLeadDto.name,
+        contactType: createLeadDto.contactType,
+      },
+      createLeadDto.message,
+    );
 
-    return lead;
+    return reply.status(200).send(foundLead);
   }
 
   @Patch(':email')

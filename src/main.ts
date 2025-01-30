@@ -1,4 +1,5 @@
 import { patchNestjsSwagger } from '@anatine/zod-nestjs';
+import { Logger } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -8,18 +9,24 @@ import {
 } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { Logger as PinoLogger } from 'nestjs-pino';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { AppModule } from './app.module';
 import { PrismaExceptionFilter } from './prisma-exceptions.filter';
 
 export async function bootstrap() {
-  const adapter = new FastifyAdapter({ logger: true });
+  const adapter = new FastifyAdapter();
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     adapter,
   );
 
   const configService = app.get(ConfigService);
+
+  const logger = new Logger('Bootstrap');
+
+  // Reemplazar el Logger por Pino (opcional)
+  app.useLogger(app.get(PinoLogger));
 
   const corsOptions: CorsOptions = {
     origin: configService.get('ORIGIN_HOST'), // Origen permitido
@@ -46,8 +53,6 @@ export async function bootstrap() {
   // fix this because I had to define NODE_ENV on package.json to make it work
 
   await app.listen(8080, '0.0.0.0');
-  console.info(
-    `\n\n\n   🚀 Swagger's running on ${await app.getUrl()}/api\n\n`,
-  );
+  logger.log(`\n\n\n   🚀 Swagger's running on ${await app.getUrl()}/api\n\n`);
 }
 bootstrap();
