@@ -30,7 +30,7 @@ model User {
   membershipId String?
   profile      Profile?
   rut          String?     @unique
-  status       STATUS_USER      @default(ACTIVE)
+  status       STATUS_USER @default(ACTIVE)
 
   @@index([membershipId])
 }
@@ -64,4 +64,24 @@ model Profile {
 enum STATUS_USER {
   ACTIVE
   DESACTIVE
+}
+
+// MKT
+
+model Lead {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  name        String?
+  phone       String?
+  message     String?
+  isSuscribed Boolean?      @default(true)
+  contactType CONTACT_TYPE
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum CONTACT_TYPE {
+  NEWSLETTER
+  CONTACT
+  LAUNCH
 }
