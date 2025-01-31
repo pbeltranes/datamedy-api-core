@@ -9,16 +9,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-generator fieldEncryptionMigrations {
-  provider = "prisma-field-encryption"
-  output   = "./where/you/want/your/migrations"
-
-  // Optionally opt-in to concurrent model migration.
-  // Since this can cause timeouts and performance issues,
-  // it's off by default, and models are updated sequentially.
-  concurrently = true
-}
-
 model User {
   id           String      @id @default(uuid())
   email        String      @unique
@@ -73,7 +63,6 @@ model Lead {
   email       String       @unique
   name        String?
   phone       String?
-  message     String?
   isSuscribed Boolean?      @default(true)
   contactType CONTACT_TYPE
   createdAt   DateTime     @default(now())
