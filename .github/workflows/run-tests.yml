@@ -1,0 +1,43 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+  workflow_dispatch: 
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+            version: 8 # Asegúrate de usar la versión correcta
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Asegura que sea compatible con Prisma
+          cache: 'pnpm' 
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate Prisma client  # 🔥 Agregado para evitar el error
+        run: pnpm prisma:generate
+
+      - name: Run tests
+        run: pnpm vitest
+
+      - name: Upload test results (opcional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
