@@ -10,7 +10,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FastifyReply } from 'fastify';
+import { Response } from 'express';
 import { CreateLeadContactDto, CreateLeadDto } from './dto/create-lead.dto';
 import { LeadService } from './lead.service';
 import { SendGridService } from '@/providers/mailer/sendgrid.service';
@@ -32,7 +32,7 @@ export class LeadController {
   @ApiResponse({ status: 200, description: 'Object found.' })
   async create(
     @Body() createLeadDto: CreateLeadDto,
-    @Res() reply: FastifyReply,
+    @Res() response: Response,
   ) {
     const foundLead = await this.leadService.findBy(
       'email',
@@ -42,7 +42,7 @@ export class LeadController {
       const createdLead = await this.leadService.create(createLeadDto);
       await this.emailService.handleEmailNotifications(createdLead);
     }
-    return reply.status(200).send(foundLead);
+    return response.status(200).send(foundLead);
   }
 
   @Post('/contact')
@@ -53,7 +53,7 @@ export class LeadController {
   @ApiResponse({ status: 200, description: 'Object found.' })
   async createContact(
     @Body() createLeadDto: CreateLeadContactDto,
-    @Res() reply: FastifyReply,
+    @Res() response: Response,
   ) {
     let foundLead = await this.leadService.findBy('email', createLeadDto.email);
     foundLead = foundLead ?? (await this.leadService.create(createLeadDto));
@@ -66,7 +66,7 @@ export class LeadController {
       createLeadDto.message,
     );
 
-    return reply.status(200).send(foundLead);
+    return response.status(200).send(foundLead);
   }
 
   @Patch(':email')

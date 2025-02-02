@@ -7,15 +7,14 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { FastifyReply } from 'fastify';
+import { Response, Request } from 'express';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<FastifyReply>();
-    const request = ctx.getRequest();
-
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
 
@@ -40,7 +39,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof Error ? exception.stack : '',
     );
 
-    response.status(status).send({
+    response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,

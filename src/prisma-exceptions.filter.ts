@@ -5,14 +5,13 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { FastifyReply } from 'fastify';
+import { Response } from 'express';
 
 @Catch()
 export class PrismaExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const response = ctx.getResponse<FastifyReply>();
-
+    const response = ctx.getResponse<Response>();
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
 
