@@ -20,7 +20,6 @@ export async function bootstrap() {
 
   // Reemplazar el Logger por Pino (opcional)
   app.useLogger(app.get(PinoLogger));
-  console.log(configService.get('ORIGIN_HOST'));
   const corsOptions: CorsOptions = {
     origin: configService.get('ORIGIN_HOST'), // Origen permitido
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -30,7 +29,7 @@ export async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Medical API')
-    .setDescription('The cats API description')
+    .setDescription('Datamedy API')
     .setVersion('1.0')
     .build();
   patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
@@ -45,7 +44,7 @@ export async function bootstrap() {
   /// EXPERIMENTAL STUFF
   // fix this because I had to define NODE_ENV on package.json to make it work
 
-  await app.listen(configService.get('PORT'), configService.get('ORIGIN_HOST'));
+  await app.listen(configService.get('PORT'));
   logger.log(`\n\n\n   🚀 Swagger's running on ${await app.getUrl()}/api\n\n`);
 }
 bootstrap();
