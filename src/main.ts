@@ -25,22 +25,22 @@ export async function bootstrap() {
   };
   app.enableCors(corsOptions);
 
-  const config = new DocumentBuilder()
-    .setTitle('Medical API')
-    .setDescription('Datamedy API')
-    .setVersion('1.0')
-    .build();
-  patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+  // Filtra endpoints si no estás en desarrollo
+  const isDev = configService.get('NODE_ENV') === 'development';
+  if (isDev) {
+    const config = new DocumentBuilder()
+      .setTitle('Datamedy API')
+      .setDescription('API para la plataforma Datamedy')
+      .setVersion('1.0')
+      .addBearerAuth() // ✅ Agrega autenticación
+      .build();
+    patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
 
   // Agregar filtro global
   app.useGlobalFilters(new PrismaExceptionFilter(), new AllExceptionsFilter());
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-  // const port = 8080;
-
-  /// EXPERIMENTAL STUFF
-  // fix this because I had to define NODE_ENV on package.json to make it work
 
   await app.listen(configService.get('PORT'));
   logger.log(`\n\n\n   🚀 Swagger's running on ${await app.getUrl()}/api\n\n`);
