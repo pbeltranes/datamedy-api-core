@@ -22,6 +22,7 @@ import { UpdateUserDto } from '@users/dto/update-user.dto';
 import { UsersService } from '@users/users.service';
 
 @ApiTags('Users')
+@ApiTags('internal') // 👈 Categoriza los endpoints como "public" o "internal"
 @Controller('users')
 @UsePipes(ZodValidationPipe)
 export class UsersController {
