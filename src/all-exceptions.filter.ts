@@ -7,10 +7,12 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { WithSentry } from '@sentry/nestjs';
 import { Response, Request } from 'express';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  @WithSentry()
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

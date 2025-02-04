@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { ConfigModule /*, ConfigService*/ } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
+
 import * as Joi from 'joi';
-import { LoggerModule } from 'nestjs-pino';
+// import { LoggerModule } from 'nestjs-pino';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
@@ -24,26 +26,23 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     LeadModule,
-    LoggerModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        pinoHttp: {
-          level:
-            configService.get<string>('NODE_ENV') !== 'production'
-              ? 'debug'
-              : 'info',
-          transport: {
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-              translateTime: 'HH:MM:ss Z',
-              ignore: 'pid,hostname',
-            },
-          },
-        },
-      }),
-    }),
+    // LoggerModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: () => ({
+    //     pinoHttp: {
+    //       level: 'info',
+    //       transport: {
+    //         target: 'pino-pretty',
+    //         options: {
+    //           colorize: true,
+    //           translateTime: 'HH:MM:ss Z',
+    //           ignore: 'pid,hostname',
+    //         },
+    //       },
+    //     },
+    //   }),
+    // }),
   ],
   controllers: [AppController],
   providers: [
@@ -51,6 +50,10 @@ import { UsersModule } from './users/users.module';
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
     },
   ],
 })
