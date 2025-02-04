@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-
+import '@/lib/intrument';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AllExceptionsFilter } from './all-exceptions.filter';
