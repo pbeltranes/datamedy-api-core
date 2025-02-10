@@ -10,7 +10,7 @@ export const SignUp = extendApi(
       lastName: z.string().min(1, 'Requiere Apellido'),
       phone: z.string().min(1, 'Phone is required'),
       membershipId: z.string().optional(),
-      rut: z.string().optional(),
+      nationalId: z.string().regex(/^[0-9]{7,8}-[0-9kK]{1}$/, 'RUT inválido'),
     })
     .strict(),
   {

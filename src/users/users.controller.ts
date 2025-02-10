@@ -22,23 +22,23 @@ import { UpdateUserDto } from '@users/dto/update-user.dto';
 import { UsersService } from '@users/users.service';
 
 @ApiTags('Users')
-@ApiTags('internal') // 👈 Categoriza los endpoints como "public" o "internal"
 @Controller('users')
 @UsePipes(ZodValidationPipe)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  //  INTERNAL USE ONLY
   @Post()
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({ summary: 'INTERNAL USE ONLY' })
   @ApiBody({ type: CreateUserDto })
   @ApiResponse({ status: 201, description: 'User created successfully.' })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-
+  //  INTERNAL USE ONLY
   @Get()
-  @ApiOperation({ summary: 'Retrieve all users' })
+  @ApiOperation({ summary: 'INTERNAL USE ONLY' })
   @ApiResponse({
     status: 200,
     description: 'List of users retrieved successfully.',
@@ -47,7 +47,9 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
+  //  INTERNAL USE ONLY
   @Get(':id')
+  @ApiOperation({ summary: 'INTERNAL USE ONLY' })
   @ApiOperation({ summary: 'Retrieve a user by ID' })
   @ApiParam({ name: 'id', description: 'ID of the user to retrieve' })
   @ApiResponse({ status: 200, description: 'User retrieved successfully.' })
@@ -58,9 +60,10 @@ export class UsersController {
     return user;
   }
 
+  //  INTERNAL USE ONLY
   @Patch(':id')
+  @ApiOperation({ summary: 'INTERNAL USE ONLY' })
   @ApiOperation({ summary: 'Update a user by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the user to update' })
   @ApiBody({ type: UpdateUserDto })
   @ApiResponse({ status: 200, description: 'User updated successfully.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
@@ -70,8 +73,9 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  //  INTERNAL USE ONLY
   @Delete(':id')
-  @ApiOperation({ summary: 'Soft delete a user by ID' })
+  @ApiOperation({ summary: 'INTERNAL USE ONLY' })
   @ApiParam({ name: 'id', description: 'ID of the user to delete' })
   @ApiResponse({ status: 200, description: 'User deleted successfully.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
