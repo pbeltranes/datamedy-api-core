@@ -19,7 +19,7 @@ model User {
   membership   Membership? @relation(fields: [membershipId], references: [id])
   membershipId String?
   profile      Profile?
-  rut          String?     @unique
+  nationalId   String?     @unique
   status       STATUS_USER @default(ACTIVE)
 
   @@index([membershipId])
