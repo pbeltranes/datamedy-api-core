@@ -19,7 +19,8 @@
     "prisma:generate": "prisma generate --schema=./src/providers/prisma/schema.prisma",
     "prisma:studio": "prisma studio --schema=./src/providers/prisma/schema.prisma",
     "prisma": "prisma --schema=./src/providers/prisma/schema.prisma",
-    "prisma:dev": "prisma migrate dev --schema=./src/providers/prisma/schema.prisma"
+    "prisma:dev": "prisma migrate dev --schema=./src/providers/prisma/schema.prisma",
+    "create:db": "chmod +x ./bin/setup_local_db.sh && ./bin/setup_local_db.sh"  
   },
   "dependencies": {
     "@anatine/zod-nestjs": "^2.0.9",
