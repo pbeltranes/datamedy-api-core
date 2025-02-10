@@ -20,6 +20,7 @@ model User {
   membershipId String?
   profile      Profile?
   nationalId   String?     @unique
+  nationality        String?
   status       STATUS_USER @default(ACTIVE)
 
   @@index([membershipId])
@@ -37,8 +38,6 @@ model Membership {
 
 model Profile {
   id                 String    @id @default(uuid())
-  birthDate          DateTime?
-  nationality        String?
   registrationNumber String?
   profilePhotoUrl    String? // Ruta o URL
   idCardFrontUrl     String? // Ruta o URL
