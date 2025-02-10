@@ -26,18 +26,37 @@ export async function bootstrap() {
   app.enableCors(corsOptions);
 
   // Filtra endpoints si no estás en desarrollo
-  const isDev = configService.get('NODE_ENV') === 'development';
-  if (isDev) {
-    const config = new DocumentBuilder()
-      .setTitle('Datamedy API')
-      .setDescription('API para la plataforma Datamedy')
-      .setVersion('1.0')
-      .addBearerAuth() // ✅ Agrega autenticación
-      .build();
-    patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+  const isProd = configService.get('NODE_ENV') === 'production';
+
+  const config = new DocumentBuilder()
+    .setTitle('Datamedy API')
+    .setDescription('API para la plataforma Datamedy')
+    .setVersion('1.0')
+    .addBearerAuth() // ✅ Agrega autenticación
+    .build();
+  patchNestjsSwagger(); // <--- This is the hacky patch using prototypes (for now)
+  const document = SwaggerModule.createDocument(app, config);
+  if (isProd) {
+    // Filtrar solo los métodos que sean estrictamente 'public'
+    document.paths = Object.fromEntries(
+      Object.entries(document.paths)
+        .map(([path, methods]) => {
+          // Filtrar solo los métodos que tienen el tag 'public'
+          const filteredMethods = Object.fromEntries(
+            Object.entries(methods).filter(
+              ([, method]: [string, any]) =>
+                method.tags.includes('public') &&
+                !method.tags.includes('internal'),
+            ),
+          );
+
+          return [path, filteredMethods];
+        })
+        .filter(([, methods]) => Object.keys(methods).length > 0), // Elimina paths vacíos
+    );
   }
+
+  SwaggerModule.setup('api', app, document);
 
   // Agregar filtro global
   app.useGlobalFilters(new PrismaExceptionFilter(), new AllExceptionsFilter());

@@ -21,7 +21,7 @@ model User {
   profile      Profile?
   nationalId   String?     @unique
   nationality        String?
-  status       STATUS_USER @default(ACTIVE)
+  status       STATUS_USER @default(DRAFT)
 
   @@index([membershipId])
 }
@@ -51,6 +51,7 @@ model Profile {
 }
 
 enum STATUS_USER {
+  DRAFT
   ACTIVE
   DESACTIVE
 }
