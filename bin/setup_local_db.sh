@@ -40,6 +40,7 @@ fi
 echo "📌 Otorgando permisos al usuario '$DB_USER' en la base de datos '$DB_NAME'..."
 psql -d postgres -c "ALTER DATABASE $DB_NAME OWNER TO $DB_USER;"
 psql -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
+psql -d postgres -c "ALTER USER $DB_USER WITH CREATEDB CREATEROLE;"
 
 echo "✅ Base de datos y usuario configurados correctamente."
 echo "🔗 Conéctate con: postgresql://$DB_USER:$DB_PASSWORD@localhost:5432/$DB_NAME"
