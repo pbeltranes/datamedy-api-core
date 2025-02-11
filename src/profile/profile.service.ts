@@ -19,10 +19,10 @@ export class ProfileService {
     });
   }
 
-  findAll() {
+  findAll(includeUser: boolean = false) {
     return this.prismaService.profile.findMany({
       include: {
-        User: true,
+        user: includeUser,
       },
     });
   }

@@ -1,10 +1,10 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
+import { STATUS_USER } from '@prisma/client';
 import { z } from 'zod';
 
 export const CreateProfile = extendApi(
   z.object({
-    email: z.string().email(),
     nationalId: z.string().regex(/^[0-9]{7,8}-[0-9kK]{1}$/, 'RUT inválido'),
     firstName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
     lastName: z.string().min(2, 'El apellido debe tener al menos 2 caracteres'),
@@ -17,6 +17,7 @@ export const CreateProfile = extendApi(
         /^\+?56?\s?[2-9]\d{1}\s?\d{4}\s?\d{4}$/,
         'Número de teléfono inválido',
       ),
+    status: z.nativeEnum(STATUS_USER),
   }),
 );
 export class CreateProfileDto extends createZodDto(CreateProfile) {}
