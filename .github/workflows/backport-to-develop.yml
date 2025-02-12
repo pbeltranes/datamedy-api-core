@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - production
+      - master
 
 permissions:
   contents: write
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout Master
         uses: actions/checkout@v4
         with:
-          ref: Master
+          ref: master
           fetch-depth: 0
 
       - name: Setup Git identity
