@@ -4,17 +4,27 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
-  Delete,
+  // Delete,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { STATUS_USER, User } from '@prisma/client';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+// import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
+import { SupabaseAuthGuard } from '@/auth/guards/supabase.auth.guard';
+import { UserMetadata } from '@/auth/user.decorator';
 import { UsersService } from '@/users/users.service';
 
+@ApiBearerAuth()
 @ApiTags('Profile')
 @ApiTags('internal') // 👈 Categoriza los endpoints como "public" o "internal"
 @Controller('profile')
@@ -26,36 +36,79 @@ export class ProfileController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new profile' })
-  @ApiResponse({ status: 201, description: 'Profile created successfully.' })
+  @ApiOperation({ summary: 'Create or update a profile' })
+  @UseGuards(SupabaseAuthGuard)
+  @ApiResponse({ status: 201, description: 'Profile processed successfully.' })
   @ApiResponse({ status: 400, description: 'Invalid input data.' })
-  async create(@Body() createProfileDto: CreateProfileDto) {
-    const user = await this.userService.create(createProfileDto);
-    return this.profileService.create(createProfileDto, user);
+  async create(
+    @UserMetadata('email') email: string,
+    @Body() createProfileDto: CreateProfileDto,
+  ) {
+    const user = await this.userService.findByEmail(email, true);
+
+    if (user) {
+      await this.updateProfile(user, createProfileDto);
+    } else {
+      await this.createProfile(email, createProfileDto);
+    }
+
+    if (createProfileDto.status === STATUS_USER.PENDING) {
+      await this.sendInternalNotification();
+    }
+    return true;
   }
 
-  @Get()
+  private async updateProfile(user: User, createProfileDto: CreateProfileDto) {
+    await this.userService.update(user.id, createProfileDto);
+    return this.profileService.update(user.profileId, createProfileDto);
+  }
+
+  private async createProfile(
+    email: string,
+    createProfileDto: CreateProfileDto,
+  ) {
+    const newUser = await this.userService.create({
+      email,
+      ...createProfileDto,
+    });
+    await this.profileService.create(createProfileDto, newUser);
+  }
+
+  private async sendInternalNotification() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, 500);
+    });
+  }
+
+  @Get('email')
+  @UseGuards(SupabaseAuthGuard)
+  findOneByEmail(@UserMetadata('email') email: string) {
+    return this.userService.findByEmail(email, true);
+  }
+  @Get('')
   @ApiOperation({ summary: 'Retrieve all users' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of users retrieved successfully.',
-  })
+  @UseGuards(SupabaseAuthGuard)
   findAll() {
     return this.profileService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(SupabaseAuthGuard)
   findOne(@Param('id') id: string) {
     return this.profileService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(id, updateProfileDto);
-  }
+  // @Patch(':id')
+  // @UseGuards(SupabaseAuthGuard)
+  // update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
+  //   return this.profileService.update(id, updateProfileDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(id);
-  }
+  // @Delete(':id')
+  // @UseGuards(SupabaseAuthGuard)
+  // remove(@Param('id') id: string) {
+  //   return this.profileService.remove(id);
+  // }
 }

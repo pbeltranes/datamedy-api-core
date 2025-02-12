@@ -27,7 +27,8 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    const { email, firstName, lastName, phone, nationalId } = updateUserDto;
+    const { email, firstName, lastName, phone, nationalId, nationality } =
+      updateUserDto;
 
     return this.prismaService.user.update({
       where: { id },
@@ -37,6 +38,7 @@ export class UsersService {
         lastName,
         phone,
         nationalId,
+        nationality,
       },
     });
   }
@@ -47,6 +49,13 @@ export class UsersService {
       data: {
         status: STATUS_USER.DESACTIVE,
       },
+    });
+  }
+
+  findByEmail(email: string, includeProfile: boolean = false) {
+    return this.prismaService.user.findFirst({
+      where: { email },
+      include: { profile: includeProfile },
     });
   }
 }

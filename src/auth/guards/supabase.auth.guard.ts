@@ -14,10 +14,14 @@ export class SupabaseAuthGuard extends AuthGuard('bearer') {
     return super.canActivate(context);
   }
 
-  handleRequest(err, user) {
+  handleRequest(err, user, info, context: ExecutionContext) {
     if (err || !user) {
       throw new UnauthorizedException();
     }
+
+    const request = context.switchToHttp().getRequest();
+    request.user = user; // Inyectar el usuario en la request
+
     return user;
   }
 }

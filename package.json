@@ -20,7 +20,7 @@
     "prisma:studio": "prisma studio --schema=./src/providers/prisma/schema.prisma",
     "prisma": "prisma --schema=./src/providers/prisma/schema.prisma",
     "prisma:dev": "prisma migrate dev --schema=./src/providers/prisma/schema.prisma",
-    "create:db": "chmod +x ./bin/setup_local_db.sh && ./bin/setup_local_db.sh"  
+    "create:db": "chmod +x ./bin/setup_local_db.sh && ./bin/setup_local_db.sh"
   },
   "dependencies": {
     "@anatine/zod-nestjs": "^2.0.9",
@@ -40,6 +40,7 @@
     "@supabase/supabase-js": "^2.48.1",
     "axios": "^1.7.7",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.7.0",
     "nestjs-pino": "^4.3.0",
     "openai": "^4.47.3",
