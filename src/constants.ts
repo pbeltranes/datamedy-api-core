@@ -1,6 +1,8 @@
 export enum STATUS_USER {
+  DRAFT,
   ACTIVE,
   DESACTIVE,
+  PENDING
 }
 
 export const TEMPLATE_ID = 'd-ef606227ce774bb98904316276dec908';
