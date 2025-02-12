@@ -39,6 +39,7 @@ describe('UsersService', () => {
       membershipId: '',
       nationalId: '',
       nationality: 'Chilena',
+      profileId: '',
     };
 
     (prismaServiceMock.user.create as any).mockResolvedValue(mockUser);
@@ -64,6 +65,7 @@ describe('UsersService', () => {
         membershipId: '',
         nationalId: '',
         nationality: 'Chilena',
+        profileId: '',
       },
       {
         id: '2',
@@ -76,6 +78,7 @@ describe('UsersService', () => {
         membershipId: '',
         nationalId: '',
         nationality: 'Chilena',
+        profileId: '',
       },
     ];
 
@@ -99,6 +102,7 @@ describe('UsersService', () => {
       membershipId: '',
       nationalId: '',
       nationality: 'Chilena',
+      profileId: '',
     };
 
     (prismaServiceMock.user.findUnique as any).mockResolvedValue(mockUser);
@@ -132,6 +136,7 @@ describe('UsersService', () => {
       membershipId: '',
       nationalId: '',
       nationality: 'Chilena',
+      profileId: '',
     };
 
     (prismaServiceMock.user.update as any).mockResolvedValue(mockUpdatedUser);
@@ -157,6 +162,7 @@ describe('UsersService', () => {
       membershipId: '',
       nationalId: '',
       nationality: 'Chilena',
+      profileId: '',
     };
 
     (prismaServiceMock.user.update as any).mockResolvedValue(

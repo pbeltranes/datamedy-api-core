@@ -32,10 +32,17 @@ export class ProfileService {
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
-    return updateProfileDto;
+    const { specialty, subspecialty } = updateProfileDto;
+    return this.prismaService.profile.update({
+      where: { id },
+      data: {
+        specialty,
+        subspecialty,
+      },
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} profile`;
-  }
+  // remove(id: string) {
+  //   return `This action removes a #${id} profile`;
+  // }
 }

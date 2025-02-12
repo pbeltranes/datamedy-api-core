@@ -4,9 +4,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
-  Delete,
+  // Delete,
   UsePipes,
   UseGuards,
 } from '@nestjs/common';
@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 import { STATUS_USER, User } from '@prisma/client';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+// import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileService } from './profile.service';
 import { SupabaseAuthGuard } from '@/auth/guards/supabase.auth.guard';
 import { UserMetadata } from '@/auth/user.decorator';
@@ -100,15 +100,15 @@ export class ProfileController {
     return this.profileService.findOne(id);
   }
 
-  @Patch(':id')
-  @UseGuards(SupabaseAuthGuard)
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(id, updateProfileDto);
-  }
+  // @Patch(':id')
+  // @UseGuards(SupabaseAuthGuard)
+  // update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
+  //   return this.profileService.update(id, updateProfileDto);
+  // }
 
-  @Delete(':id')
-  @UseGuards(SupabaseAuthGuard)
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(id);
-  }
+  // @Delete(':id')
+  // @UseGuards(SupabaseAuthGuard)
+  // remove(@Param('id') id: string) {
+  //   return this.profileService.remove(id);
+  // }
 }
