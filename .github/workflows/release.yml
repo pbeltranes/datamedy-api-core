@@ -20,7 +20,7 @@ jobs:
           PR_LIST=$(gh pr list --base develop --state closed --json number,title,author,url --jq ".[] | select(.baseRefName == \"develop\" and .mergedAt != null) | {number: .number, title: .title, author: .author.login, url: .url} | @base64")
           echo "PR_LIST=$PR_LIST" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Create PR from release branch to master
         id: create_pr
@@ -36,4 +36,4 @@ jobs:
           done
           gh pr create --base master --head ${{ github.ref_name }} --title "Merge ${{ github.ref_name }} into master" --body "$DESCRIPTION"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
