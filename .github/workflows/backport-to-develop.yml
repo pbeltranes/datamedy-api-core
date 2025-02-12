@@ -1,41 +1,48 @@
-name: Backport Master to Develop
+name: Backport to Develop on Release Merge
 
 on:
   pull_request:
-    types:
-      - closed
+    types: [closed]
     branches:
-      - master  # Se activa cuando un PR hacia master es mergeado
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  backport_to_develop:
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+  backport:
+    if: |
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🛎️ Checkout del repositorio
-        uses: actions/checkout@v3
+      - name: Checkout Master
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Se necesita todo el historial para los merge correctos
+          ref: master
+          fetch-depth: 0
 
-      - name: 🔑 Configurar Git y autenticación
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Git identity
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          gh auth status
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
 
-      - name: 🔄 Crear Branch de Backport
-        run: |
-          BACKPORT_BRANCH="backport-$(date +'%Y%m%d%H%M%S')"
-          git checkout -b $BACKPORT_BRANCH
-          git merge origin/master --no-edit
-          git push origin $BACKPORT_BRANCH
+      - name: Generate branch name
+        id: date
+        run: echo "branch_name=backport/$(date -u +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
 
-      - name: 🚀 Crear Pull Request a Develop
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create backport branch
         run: |
-          PR_URL=$(gh pr create --base develop --head $BACKPORT_BRANCH --title "Backport cambios de master a develop" --body "Este PR sincroniza los cambios recientes de master a develop.")
-          echo "Pull Request creado: $PR_URL"
+          git checkout -b ${{ steps.date.outputs.branch_name }}
+          git push origin ${{ steps.date.outputs.branch_name }}
+
+      - name: Create PR to Develop
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: develop
+          title: "Backport from Master - ${{ steps.date.outputs.branch_name }}"
+          body: "Automated PR containing latest changes from Master branch"
+          draft: false
