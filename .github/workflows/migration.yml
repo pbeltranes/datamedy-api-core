@@ -1,0 +1,36 @@
+name: Deploy
+on:
+  push:
+    paths:
+      - src/providers/migrations/** # Only run this workflow when migrations are updated
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+            version: 8 # Asegúrate de usar la versión correcta
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+            node-version: 20 # Asegura que sea compatible con Prisma
+            cache: 'pnpm'
+ 
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate Prisma client  # 🔥 Agregado para evitar el error
+        run: pnpm prisma:generate
+
+      - name: Apply all pending migrations to the database
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
