@@ -1,34 +1,36 @@
-name: Create Release PR
+name: Auto PR from Release Branch to Master
 
 on:
-  push:
-    branches:
-      - "release/*"  # Se activará solo si la branch empieza con "release/"
+  create
 
 jobs:
-  create_release_pr:
+  create-pr:
     runs-on: ubuntu-latest
-
+    if: startsWith(github.ref, 'refs/heads/release/')
     steps:
-      - name: 🛎️ Checkout del repositorio
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: 📦 Instalar dependencias de GitHub CLI y jq
+      - name: Get merged PRs from develop not in master
+        id: get_prs
         run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-          gh --version
-
-      - name: 🔑 Autenticación con GitHub CLI
+          PR_LIST=$(gh pr list --base develop --state closed --json number,title,author,url --jq ".[] | select(.baseRefName == \"develop\" and .mergedAt != null) | {number: .number, title: .title, author: .author.login, url: .url} | @base64")
+          echo "PR_LIST=$PR_LIST" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Autenticando en GitHub CLI..."
-          gh auth status
 
-      - name: 🚀 Ejecutar release.sh
+      - name: Create PR from release branch to master
+        id: create_pr
+        run: |
+          DESCRIPTION="### Changes from develop\n\n"
+          for PR in $PR_LIST; do
+            DECODED=$(echo $PR | base64 --decode)
+            NUMBER=$(echo $DECODED | jq -r .number)
+            TITLE=$(echo $DECODED | jq -r .title)
+            AUTHOR=$(echo $DECODED | jq -r .author)
+            URL=$(echo $DECODED | jq -r .url)
+            DESCRIPTION+="- [#$NUMBER]($URL) by @$AUTHOR - $TITLE\n"
+          done
+          gh pr create --base master --head ${{ github.ref_name }} --title "Merge ${{ github.ref_name }} into master" --body "$DESCRIPTION"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          chmod +x release.sh
-          ./release.sh $(echo $GITHUB_REF | awk -F'/' '{print $3}')
