@@ -60,7 +60,7 @@ export class ProfileController {
 
   private async updateProfile(user: User, createProfileDto: CreateProfileDto) {
     await this.userService.update(user.id, createProfileDto);
-    return this.profileService.update(user.profileId, createProfileDto);
+    return this.profileService.update(user.id, createProfileDto);
   }
 
   private async createProfile(

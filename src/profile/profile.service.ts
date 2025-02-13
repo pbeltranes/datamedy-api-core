@@ -31,10 +31,10 @@ export class ProfileService {
     return `This action returns a #${id} profile`;
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto) {
+  update(userId: string, updateProfileDto: UpdateProfileDto) {
     const { specialty, subspecialty } = updateProfileDto;
     return this.prismaService.profile.update({
-      where: { id },
+      where: { userId },
       data: {
         specialty,
         subspecialty,

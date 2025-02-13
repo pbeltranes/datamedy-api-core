@@ -1,5 +1,6 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { extendApi } from '@anatine/zod-openapi';
+import { STATUS_USER } from '@prisma/client';
 import { z } from 'zod';
 
 export const SignUp = extendApi(
@@ -12,6 +13,7 @@ export const SignUp = extendApi(
       membershipId: z.string().optional(),
       nationalId: z.string().regex(/^[0-9]{7,8}-[0-9kK]{1}$/, 'RUT inválido'),
       nationality: z.string().min(2, 'País inválido'),
+      status: z.nativeEnum(STATUS_USER),
     })
     .strict(),
   {
