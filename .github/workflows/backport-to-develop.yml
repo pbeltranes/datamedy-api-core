@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
@@ -43,6 +43,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: develop
-          title: "Backport from Master - ${{ steps.date.outputs.branch_name }}"
-          body: "Automated PR containing latest changes from Master branch"
+          title: "Backport from Main - ${{ steps.date.outputs.branch_name }}"
+          body: "Automated PR containing latest changes from Main branch"
           draft: false
