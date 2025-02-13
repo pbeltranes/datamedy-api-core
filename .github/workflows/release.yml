@@ -42,7 +42,7 @@ jobs:
             const mergedPrNumbers = Array.from(new Set(pull_numbers_in_release.split(',').map(Number)));
             // Get the PRs and parse the release summary
             const mergedPrs = await Promise.all(mergedPrNumbers.map(async (prNumber) => {
-              const pr = await github.rest.pulls.get({
+            const pr = await github.rest.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber
@@ -58,7 +58,7 @@ jobs:
               ).join('\n');
               return `${pr.data.title}\n${match}`;
             })).then((prs) => prs.filter(Boolean));
-            const releaseSummary = mergedPrs.join('\n\n');
+            const resultSummary = mergedPrs.join('\n\n');
             return resultSummary;
           result-encoding: string
         env:
