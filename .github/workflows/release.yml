@@ -58,7 +58,7 @@ jobs:
               ).join('\n');
               return `${pr.data.title}\n${match}`;
             })).then((prs) => prs.filter(Boolean));
-            const releaseSummary = mergedPrs.join('\n\n');
+            const resultSummary = mergedPrs.join('\n\n');
             return resultSummary;
           result-encoding: string
         env:
