@@ -72,4 +72,4 @@ jobs:
           version: ${{ inputs.version }}
           release_summary: ${{ steps.generate_pr_summary.outputs.result }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
