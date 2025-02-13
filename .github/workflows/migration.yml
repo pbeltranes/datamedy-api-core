@@ -1,5 +1,6 @@
 name: Migrations
 on:
+  workflow_dispatch:
   push:
     paths:
       - src/providers/prisma/migrations/** # Only run this workflow when migrations are updated
@@ -7,7 +8,7 @@ on:
       - develop
 
 jobs:
-  deploy:
+  migrations:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
