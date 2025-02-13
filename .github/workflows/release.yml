@@ -1,20 +1,17 @@
+name: Release
 on:
   workflow_dispatch:
     inputs:
       version:
         type: string
         required: true
-        description: "Version to release"
+        description: "Version to release e.g: 1.0.0"
   pull_request:
     types:
       - closed
-
-name: Release
-
 permissions:  # ✅ Add this to allow writing permissions
   contents: write
   pull-requests: write
-  
 jobs:
   release_workflow:
     runs-on: ubuntu-latest
@@ -31,7 +28,6 @@ jobs:
           dry_run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Explicitly set the token
-
       - id: generate_pr_summary
         name: generate pr summary
         if: ${{ steps.release_workflow_dry_run.outputs.type == 'release' && steps.release_workflow_dry_run.outputs.pull_numbers_in_release }}

@@ -1,4 +1,4 @@
-name: Backport to Develop on Release Merge
+name: Backport
 
 on:
   pull_request:
