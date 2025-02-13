@@ -25,6 +25,8 @@ jobs:
           develop_branch: "develop"
           main_branch: "main"
           dry_run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Explicitly set the token
 
       - id: generate_pr_summary
         name: generate pr summary
@@ -55,7 +57,8 @@ jobs:
             const releaseSummary = mergedPrs.join('\n\n');
             return resultSummary;
           result-encoding: string
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Explicitly set the token
       - id: release_workflow
         name: gitflow-workflow-action release workflows
         uses: hoangvvo/gitflow-workflow-action@0.3.7
