@@ -1,4 +1,4 @@
-name: Deploy migrations
+name: Migrations
 on:
   push:
     paths:
