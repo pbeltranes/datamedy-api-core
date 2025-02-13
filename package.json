@@ -23,7 +23,7 @@
     "prisma:deploy": "prisma migrate deploy --schema=./src/providers/prisma/schema.prisma",
     "prisma:dev": "prisma migrate dev --schema=./src/providers/prisma/schema.prisma",
     "create:db": "chmod +x ./bin/setup_local_db.sh && ./bin/setup_local_db.sh",
-    "commit": "(echo 'Puedes generar el mensaje del commit:\n' && git diff --staged HEAD) | pbcopy",
+    "commit": "(echo 'Puedes generar el mensaje del commit:\n' && git diff --staged HEAD) | pbcopy"
   },
   "dependencies": {
     "@anatine/zod-nestjs": "^2.0.9",
