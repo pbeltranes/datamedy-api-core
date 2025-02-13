@@ -31,7 +31,7 @@ jobs:
         run: pnpm prisma:generate
 
       - name: Apply all pending migrations to the database
-        run: npx prisma migrate deploy
+        run: pnpm prisma:deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
