@@ -18,13 +18,11 @@ model User {
   createdAt    DateTime    @default(now())
   membership   Membership? @relation(fields: [membershipId], references: [id])
   membershipId String?
-  profile      Profile?
-  profileId    String?     @unique
+  profile      Profile?   
   nationalId   String?
   nationality  String?
   status       STATUS_USER @default(DRAFT)
 
-  @@index([membershipId])
 }
 
 model Membership {
@@ -47,7 +45,7 @@ model Profile {
   subspecialty       String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  user               User     @relation(fields: [userId], references: [id])
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Asegura que si se elimina un usuario, se elimine su perfil
   userId             String   @unique
 }
 

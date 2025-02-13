@@ -27,8 +27,15 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    const { email, firstName, lastName, phone, nationalId, nationality } =
-      updateUserDto;
+    const {
+      email,
+      firstName,
+      lastName,
+      phone,
+      nationalId,
+      nationality,
+      status,
+    } = updateUserDto;
 
     return this.prismaService.user.update({
       where: { id },
@@ -39,6 +46,7 @@ export class UsersService {
         phone,
         nationalId,
         nationality,
+        status,
       },
     });
   }
