@@ -19,7 +19,13 @@ export async function bootstrap() {
 
   // Reemplazar el Logger por Pino (opcional)
   const corsOptions: CorsOptions = {
-    origin: configService.get('ORIGIN_HOST'), // Origen permitido
+    origin: (origin, callback) => {
+      if (!origin || configService.get('ORIGIN_HOST').includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // Habilitar el envío de cookies
   };
