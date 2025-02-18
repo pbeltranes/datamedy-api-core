@@ -23,6 +23,8 @@ model User {
   nationality  String?
   status       STATUS_USER @default(DRAFT)
 
+
+  @@index([membershipId])
 }
 
 model Membership {
