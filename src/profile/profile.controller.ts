@@ -9,9 +9,12 @@ import {
   // Delete,
   UsePipes,
   UseGuards,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiNoContentResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -33,7 +36,7 @@ export class ProfileController {
   constructor(
     private readonly profileService: ProfileService,
     private readonly userService: UsersService,
-  ) {}
+  ) { }
 
   @Post()
   @ApiOperation({ summary: 'Create or update a profile' })
@@ -84,8 +87,10 @@ export class ProfileController {
 
   @Get('email')
   @UseGuards(SupabaseAuthGuard)
-  findOneByEmail(@UserMetadata('email') email: string) {
-    return this.userService.findByEmail(email, true);
+  async findOneByEmail(@UserMetadata('email') email: string) {
+    const user = await this.userService.findByEmail(email, true);
+    if (!user) throw new NotFoundException('Profile not found')
+    return user
   }
   @Get('')
   @ApiOperation({ summary: 'Retrieve all users' })

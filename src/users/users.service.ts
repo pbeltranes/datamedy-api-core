@@ -61,7 +61,7 @@ export class UsersService {
   }
 
   findByEmail(email: string, includeProfile: boolean = false) {
-    return this.prismaService.user.findFirst({
+    return this.prismaService.user.findUnique({
       where: { email },
       include: { profile: includeProfile },
     });
