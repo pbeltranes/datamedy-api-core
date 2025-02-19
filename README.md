@@ -2,74 +2,104 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+## Project Setup
+
+### Install Dependencies
 
 ```bash
-$ pnpm install
+pnpm install
 ```
 
-## Compile and run the project
+### Compile and Run the Project
 
 ```bash
-# development
-$ pnpm run start
+# Development mode
+pnpm run start
 
-# watch mode
-$ pnpm run start:dev
+# Watch mode
+pnpm run start:dev
 
-# production mode
-$ pnpm run start:prod
+# Production mode
+pnpm run start:prod
 ```
 
-## Run tests
+### Run Tests
 
 ```bash
-# unit tests
-$ pnpm run test
+# Unit tests
+pnpm run vitest
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+# Test coverage
+pnpm run vitest:coverage
 ```
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+To deploy your NestJS application to production efficiently, follow the [deployment documentation](https://docs.nestjs.com/deployment).
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+If you're looking for a cloud-based platform for deployment, check out [Mau](https://mau.nestjs.com), the official NestJS deployment platform for AWS. It simplifies deployment into just a few steps.
+
+## Project Structure
+
+- **Controllers**: Handle incoming requests and return responses.
+- **Services**: Manage business logic and interact with entities.
+
+## Database Setup
+
+### Install PostgreSQL
+
+#### macOS (Homebrew)
+
+1️⃣ Update Homebrew and install PostgreSQL:
 
 ```bash
-$ pnpm install -g mau
-$ mau deploy
+brew update
+brew install postgresql
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2️⃣ Start and enable PostgreSQL:
 
-## Resources
+```bash
+brew services start postgresql
+```
 
-controllador se encarga de
-servicios solo manejaran entidades
+3️⃣ Verify the installation:
 
+```bash
+postgres --version
+```
 
-## Support
+### Initialize Local Database
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Run the setup script:
 
-## Stay in touch
+```bash
+bin/setup_local_db.sh
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Database Configuration
+
+```bash
+# Local database setup
+DB_NAME=local_datamedy
+DB_USER=paul
+DB_PASSWORD=123456
+DB_PORT=5432
+```
+
+Use Prisma to generate the database schema:
+
+```bash
+pnpm prisma generate
+```
+
+## Authentication
+
+Authentication tokens must be generated on the frontend and can be edited in the `auth` module.
 
 ## License
 
