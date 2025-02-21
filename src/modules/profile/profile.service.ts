@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Profile, User } from '@prisma/client';
+import { Practitioner, User } from '@prisma/client';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/providers/prisma/prisma.service';
@@ -8,9 +8,9 @@ import { PrismaService } from '@/providers/prisma/prisma.service';
 export class ProfileService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createProfileDto: CreateProfileDto, user: User): Promise<Profile> {
+  create(createProfileDto: CreateProfileDto, user: User): Promise<Practitioner> {
     const { specialty, subspecialty } = createProfileDto;
-    return this.prismaService.profile.create({
+    return this.prismaService.practitioner.create({
       data: {
         userId: user.id,
         specialty,
@@ -20,7 +20,7 @@ export class ProfileService {
   }
 
   findAll(includeUser: boolean = false) {
-    return this.prismaService.profile.findMany({
+    return this.prismaService.practitioner.findMany({
       include: {
         user: includeUser,
       },
@@ -33,7 +33,7 @@ export class ProfileService {
 
   update(userId: string, updateProfileDto: UpdateProfileDto) {
     const { specialty, subspecialty } = updateProfileDto;
-    return this.prismaService.profile.update({
+    return this.prismaService.practitioner.update({
       where: { userId },
       data: {
         specialty,

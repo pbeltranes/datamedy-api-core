@@ -2,8 +2,9 @@
 import * as Sentry from '@sentry/nestjs';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 
+
 Sentry.init({
-  dsn: 'https://1d9dacf0aee68c8f16e5d60820416201@o316473.ingest.us.sentry.io/4508758435823616',
+  dsn: process.env.SENTRY_URL,
   integrations: [nodeProfilingIntegration()],
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions

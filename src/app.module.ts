@@ -5,13 +5,13 @@ import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 
 import * as Joi from 'joi';
 // import { LoggerModule } from 'nestjs-pino';
-import { AllExceptionsFilter } from './all-exceptions.filter';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { LeadModule } from './lead/lead.module';
-import { ProfileModule } from './profile/profile.module';
-import { UsersModule } from './users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { LeadModule } from './modules/lead/lead.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { UsersModule } from '@/modules/users/users.module';
 
 @Module({
   imports: [
@@ -59,4 +59,4 @@ import { UsersModule } from './users/users.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

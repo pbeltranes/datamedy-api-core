@@ -1,0 +1,74 @@
+[
+    {
+      "categoria": "Consultas Médicas",
+      "prestaciones": [
+        "Consulta médica general",
+        "Consulta médica de especialidad",
+        "Consulta de salud mental"
+      ]
+    },
+    {
+      "categoria": "Exámenes de Laboratorio",
+      "prestaciones": [
+        "Hemograma completo",
+        "Perfil bioquímico",
+        "Pruebas de función hepática"
+      ]
+    },
+    {
+      "categoria": "Procedimientos Diagnósticos",
+      "prestaciones": [
+        "Radiografía de tórax",
+        "Ecografía abdominal",
+        "Resonancia magnética nuclear"
+      ]
+    },
+    {
+      "categoria": "Procedimientos Terapéuticos",
+      "prestaciones": [
+        "Quimioterapia",
+        "Radioterapia",
+        "Diálisis"
+      ]
+    },
+    {
+      "categoria": "Cirugías",
+      "prestaciones": [
+        "Apendicectomía",
+        "Colecistectomía",
+        "Cirugía de cataratas"
+      ]
+    },
+    {
+      "categoria": "Rehabilitación",
+      "prestaciones": [
+        "Terapia física",
+        "Terapia ocupacional",
+        "Fonoaudiología"
+      ]
+    },
+    {
+      "categoria": "Salud Bucal",
+      "prestaciones": [
+        "Consulta odontológica",
+        "Limpieza dental",
+        "Extracción de piezas dentales"
+      ]
+    },
+    {
+      "categoria": "Salud Mental",
+      "prestaciones": [
+        "Psicoterapia individual",
+        "Psicoterapia grupal",
+        "Atención psiquiátrica"
+      ]
+    },
+    {
+      "categoria": "Examen de Medicina Preventiva",
+      "prestaciones": [
+        "Control de salud infantil",
+        "Control de salud del adulto",
+        "Exámenes preventivos específicos"
+      ]
+    }
+  ]

@@ -22,8 +22,12 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@/users/*": ["./modules/users/*"],
+      "@/auth/*": ["./modules/auth/*"],
+      "@/profile/*": ["./modules/profile/*"],
+      "@/lead/*": ["./modules/lead/*"],
       "@/*": ["./*"],
-      "@users/*": ["./users/*"]
+
     },
   },
   "include": ["./public","src/**/*.ts", "prisma", "vite.config.ts", "vitest.config.ts"]

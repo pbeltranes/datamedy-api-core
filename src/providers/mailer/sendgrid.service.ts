@@ -8,7 +8,7 @@ import {
   LAUNCH_ID,
   NEWSLETTER_ID,
   TEMPLATE_TYPES,
-} from '@/constants';
+} from '@/lib/constants';
 
 @Injectable()
 export class SendGridService {

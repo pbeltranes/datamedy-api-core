@@ -1,0 +1,87 @@
+[
+    {
+      "especialidad": "Medicina General",
+      "descripcion": "Atención primaria de salud para diagnósticos y tratamientos generales.",
+      "subespecialidades": ["Medicina Familiar", "Medicina Interna", "Urgencias"]
+    },
+    {
+      "especialidad": "Kinesiología",
+      "descripcion": "Rehabilitación física, terapias de movilidad y tratamientos post-quirúrgicos.",
+      "subespecialidades": ["Kinesiología Respiratoria", "Kinesiología Deportiva", "Kinesiología Neurológica"]
+    },
+    {
+      "especialidad": "Psicología",
+      "descripcion": "Terapias psicológicas individuales, familiares y de pareja.",
+      "subespecialidades": ["Psicología Clínica", "Psicología Educacional", "Psicología Organizacional"]
+    },
+    {
+      "especialidad": "Nutrición",
+      "descripcion": "Planes alimenticios personalizados y manejo de condiciones como obesidad o diabetes.",
+      "subespecialidades": ["Nutrición Deportiva", "Nutrición Clínica", "Nutrición Pediátrica"]
+    },
+    {
+      "especialidad": "Enfermería",
+      "descripcion": "Cuidado domiciliario, administración de medicamentos y curaciones.",
+      "subespecialidades": ["Enfermería Oncológica", "Enfermería en Cuidados Intensivos", "Enfermería Geriátrica"]
+    },
+    {
+      "especialidad": "Matronería",
+      "descripcion": "Control del embarazo, asistencia en parto y postparto, y salud sexual.",
+      "subespecialidades": ["Salud Sexual y Reproductiva", "Matronería Neonatal", "Matronería en Fertilidad"]
+    },
+    {
+      "especialidad": "Pediatría",
+      "descripcion": "Atención médica para recién nacidos, niños y adolescentes.",
+      "subespecialidades": ["Neonatología", "Pediatría Endocrinológica", "Pediatría Cardiológica"]
+    },
+    {
+      "especialidad": "Dermatología",
+      "descripcion": "Diagnóstico y tratamiento de enfermedades de la piel, cabello y uñas.",
+      "subespecialidades": ["Dermatología Pediátrica", "Dermatología Estética", "Dermatología Oncológica"]
+    },
+    {
+      "especialidad": "Traumatología y Ortopedia",
+      "descripcion": "Diagnóstico y tratamiento de lesiones óseas, musculares y articulares.",
+      "subespecialidades": ["Ortopedia Infantil", "Traumatología Deportiva", "Cirugía de Columna"]
+    },
+    {
+      "especialidad": "Ginecología y Obstetricia",
+      "descripcion": "Salud reproductiva, controles ginecológicos y seguimiento de embarazo.",
+      "subespecialidades": ["Ginecología Oncológica", "Medicina Reproductiva", "Uroginecología"]
+    },
+    {
+      "especialidad": "Odontología",
+      "descripcion": "Atención dental, tratamientos de ortodoncia, endodoncia y periodoncia.",
+      "subespecialidades": ["Ortodoncia", "Endodoncia", "Implantología"]
+    },
+    {
+      "especialidad": "Fonoaudiología",
+      "descripcion": "Terapias de lenguaje, habla, audición y voz.",
+      "subespecialidades": ["Fonoaudiología Infantil", "Fonoaudiología Neurológica", "Audiología"]
+    },
+    {
+      "especialidad": "Oftalmología",
+      "descripcion": "Diagnóstico y tratamiento de enfermedades de los ojos.",
+      "subespecialidades": ["Oftalmología Pediátrica", "Retinología", "Cirugía Refractiva"]
+    },
+    {
+      "especialidad": "Cardiología",
+      "descripcion": "Diagnóstico y manejo de enfermedades cardiovasculares.",
+      "subespecialidades": ["Cardiología Pediátrica", "Electrofisiología", "Intervencionismo Cardiaco"]
+    },
+    {
+      "especialidad": "Reumatología",
+      "descripcion": "Tratamiento de enfermedades autoinmunes y reumáticas como artritis.",
+      "subespecialidades": ["Reumatología Pediátrica", "Reumatología Oncológica", "Osteología"]
+    },
+    {
+      "especialidad": "Psicopedagogía",
+      "descripcion": "Intervenciones en niños y jóvenes con dificultades de aprendizaje.",
+      "subespecialidades": ["Psicopedagogía Infantil", "Psicopedagogía en TDAH", "Psicopedagogía en Dislexia"]
+    },
+    {
+      "especialidad": "Medicina Estética",
+      "descripcion": "Tratamientos estéticos no quirúrgicos como botox y rellenos dérmicos.",
+      "subespecialidades": ["Medicina Estética Facial", "Medicina Estética Corporal", "Antiaging"]
+    }
+  ]

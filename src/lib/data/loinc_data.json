@@ -1,0 +1,135 @@
+{
+    "kinesiologia": [
+      {
+        "code": "41950-7",
+        "description": "Velocidad de la marcha",
+        "unit": "m/s"
+      },
+      {
+        "code": "57256-0",
+        "description": "Distancia recorrida en 6 minutos",
+        "unit": "m"
+      },
+      {
+        "code": "89269-5",
+        "description": "Índice de Barthel",
+        "unit": "Puntaje (0-100)"
+      },
+      {
+        "code": "89264-6",
+        "description": "Escala de equilibrio de Berg",
+        "unit": "Puntaje (0-56)"
+      },
+      {
+        "code": "89270-3",
+        "description": "Timed Up and Go Test",
+        "unit": "s"
+      }
+    ],
+    "psicologia": [
+      {
+        "code": "44249-1",
+        "description": "Inventario de Depresión de Beck II (BDI-II)",
+        "unit": "Puntaje (0-63)"
+      },
+      {
+        "code": "89261-2",
+        "description": "Escala de Ansiedad de Hamilton",
+        "unit": "Puntaje (0-56)"
+      },
+      {
+        "code": "89260-4",
+        "description": "Escala de Depresión de Hamilton",
+        "unit": "Puntaje (0-52)"
+      },
+      {
+        "code": "89264-6",
+        "description": "Escala de Evaluación Global de Funcionamiento (GAF)",
+        "unit": "Puntaje (0-100)"
+      },
+      {
+        "code": "89265-3",
+        "description": "Cuestionario de Salud General de 12 ítems (GHQ-12)",
+        "unit": "Puntaje (0-12)"
+      }
+    ],
+    "matronas": [
+      {
+        "code": "11884-4",
+        "description": "Edad gestacional",
+        "unit": "semanas"
+      },
+      {
+        "code": "82810-3",
+        "description": "Frecuencia cardíaca fetal",
+        "unit": "lpm"
+      },
+      {
+        "code": "57067-1",
+        "description": "Altura del fondo uterino",
+        "unit": "cm"
+      },
+      {
+        "code": "33195-7",
+        "description": "Evaluación de la posición fetal",
+        "unit": "Texto descriptivo"
+      },
+      {
+        "code": "11975-0",
+        "description": "Número de fetos",
+        "unit": "Número entero"
+      }
+    ],
+    "enfermeria": [
+      {
+        "code": "8310-5",
+        "description": "Temperatura corporal",
+        "unit": "°C"
+      },
+      {
+        "code": "8462-4",
+        "description": "Presión arterial diastólica",
+        "unit": "mmHg"
+      },
+      {
+        "code": "8480-6",
+        "description": "Presión arterial sistólica",
+        "unit": "mmHg"
+      },
+      {
+        "code": "8867-4",
+        "description": "Frecuencia cardíaca",
+        "unit": "lpm"
+      },
+      {
+        "code": "9279-1",
+        "description": "Frecuencia respiratoria",
+        "unit": "rpm"
+      },
+      {
+        "code": "8302-2",
+        "description": "Estatura (longitud) del paciente",
+        "unit": "cm"
+      },
+      {
+        "code": "29463-7",
+        "description": "Peso corporal",
+        "unit": "kg"
+      },
+      {
+        "code": "39156-5",
+        "description": "Índice de masa corporal (IMC)",
+        "unit": "kg/m²"
+      },
+      {
+        "code": "89266-1",
+        "description": "Escala de Coma de Glasgow",
+        "unit": "Puntaje (3-15)"
+      },
+      {
+        "code": "89268-7",
+        "description": "Evaluación del dolor mediante escala numérica",
+        "unit": "Puntaje (0-10)"
+      }
+    ]
+  }

@@ -10,11 +10,9 @@ import {
   UsePipes,
   UseGuards,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiNoContentResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,

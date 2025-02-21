@@ -1,0 +1,62 @@
+[
+    {
+      "nombre": "Banmédica S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.banmedica.cl",
+      "telefono": "600 600 3600"
+    },
+    {
+      "nombre": "Colmena Golden Cross S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.colmena.cl",
+      "telefono": "800 633 444"
+    },
+    {
+      "nombre": "Consalud S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.consalud.cl",
+      "telefono": "600 500 9000"
+    },
+    {
+      "nombre": "Cruz Blanca S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.cruzblanca.cl",
+      "telefono": "600 818 0000"
+    },
+    {
+      "nombre": "Nueva Masvida S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.nuevamasvida.cl",
+      "telefono": "600 600 262"
+    },
+    {
+      "nombre": "Vida Tres S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.vidatres.cl",
+      "telefono": "600 600 3535"
+    },
+    {
+      "nombre": "Esencial S.A.",
+      "tipo": "abierta",
+      "sitio_web": "https://www.somosesencial.cl",
+      "telefono": "600 0880 090"
+    },
+    {
+      "nombre": "Isalud Ltda.",
+      "tipo": "cerrada",
+      "sitio_web": "https://www.isapredecodelco.cl",
+      "telefono": "600 380 0331"
+    },
+    {
+      "nombre": "Cruz del Norte Ltda.",
+      "tipo": "cerrada",
+      "sitio_web": "https://www.isaprecruzdelnorte.cl",
+      "telefono": "977 993 65"
+    },
+    {
+      "nombre": "Fundación Ltda.",
+      "tipo": "cerrada",
+      "sitio_web": "https://www.isaprefundacion.cl",
+      "telefono": "22 347 9000"
+    }
+  ]
