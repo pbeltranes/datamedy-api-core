@@ -10,7 +10,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { LeadModule } from './modules/lead/lead.module';
-import { ProfileModule } from './modules/profile/profile.module';
+import { PractitionerModule } from './modules/practitioner/practitioner.module';
 import { UsersModule } from '@/modules/users/users.module';
 
 @Module({
@@ -27,7 +27,7 @@ import { UsersModule } from '@/modules/users/users.module';
     AuthModule,
     UsersModule,
     LeadModule,
-    ProfileModule,
+    PractitionerModule,
     // LoggerModule.forRootAsync({
     //   imports: [ConfigModule],
     //   inject: [ConfigService],

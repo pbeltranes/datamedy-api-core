@@ -20,19 +20,19 @@ import {
 import { STATUS_USER, User } from '@prisma/client';
 import { CreateProfileDto } from './dto/create-profile.dto';
 // import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ProfileService } from './profile.service';
+import { PractitionerService } from './practitioner.service';
 import { SupabaseAuthGuard } from '@/auth/guards/supabase.auth.guard';
 import { UserMetadata } from '@/auth/user.decorator';
 import { UsersService } from '@/users/users.service';
 
 @ApiBearerAuth()
-@ApiTags('Profile')
+@ApiTags('Practitioner')
 @ApiTags('internal') // 👈 Categoriza los endpoints como "public" o "internal"
-@Controller('profile')
+@Controller('practitioner')
 @UsePipes(ZodValidationPipe)
-export class ProfileController {
+export class PractitionerController {
   constructor(
-    private readonly profileService: ProfileService,
+    private readonly practitionerService: PractitionerService,
     private readonly userService: UsersService,
   ) { }
 
@@ -61,7 +61,7 @@ export class ProfileController {
 
   private async updateProfile(user: User, createProfileDto: CreateProfileDto) {
     await this.userService.update(user.id, createProfileDto);
-    return this.profileService.update(user.id, createProfileDto);
+    return this.practitionerService.update(user.id, createProfileDto);
   }
 
   private async createProfile(
@@ -72,7 +72,7 @@ export class ProfileController {
       email,
       ...createProfileDto,
     });
-    await this.profileService.create(createProfileDto, newUser);
+    await this.practitionerService.create(createProfileDto, newUser);
   }
 
   private async sendInternalNotification() {
@@ -94,24 +94,24 @@ export class ProfileController {
   @ApiOperation({ summary: 'Retrieve all users' })
   @UseGuards(SupabaseAuthGuard)
   findAll() {
-    return this.profileService.findAll();
+    return this.practitionerService.findAll();
   }
 
   @Get(':id')
   @UseGuards(SupabaseAuthGuard)
   findOne(@Param('id') id: string) {
-    return this.profileService.findOne(id);
+    return this.practitionerService.findOne(id);
   }
 
   // @Patch(':id')
   // @UseGuards(SupabaseAuthGuard)
   // update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-  //   return this.profileService.update(id, updateProfileDto);
+  //   return this.practitionerService.update(id, updateProfileDto);
   // }
 
   // @Delete(':id')
   // @UseGuards(SupabaseAuthGuard)
   // remove(@Param('id') id: string) {
-  //   return this.profileService.remove(id);
+  //   return this.practitionerService.remove(id);
   // }
 }

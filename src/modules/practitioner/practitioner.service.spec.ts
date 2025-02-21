@@ -3,7 +3,7 @@ import { Profile, STATUS_USER, User } from '@prisma/client';
 import { beforeAll, expect, it, Mock, vi } from 'vitest';
 import { CreateProfileDto } from './dto/create-profile.dto';
 // import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ProfileService } from './profile.service';
+import { ProfileService } from './practitioner.service';
 import { PrismaService } from '@/providers/prisma/prisma.service';
 
 let service: ProfileService;

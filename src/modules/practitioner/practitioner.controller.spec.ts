@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { ProfileController } from './profile.controller';
-import { ProfileService } from './profile.service';
+import { ProfileController } from './practitioner.controller';
+import { ProfileService } from './practitioner.service';
 import { PrismaModule } from '@/providers/prisma/prisma.module';
 import { UsersModule } from '@/users/users.module';
 

@@ -5,7 +5,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/providers/prisma/prisma.service';
 
 @Injectable()
-export class ProfileService {
+export class PractitionerService {
   constructor(private readonly prismaService: PrismaService) {}
 
   create(createProfileDto: CreateProfileDto, user: User): Promise<Practitioner> {
